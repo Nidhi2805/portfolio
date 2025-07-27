@@ -143,7 +143,7 @@ function App() {
       setFormStatus({ submitting: false, success: false, error: true });
     }
   };
-
+  
   return (
     <div className="portfolio">
       <nav className="navbar">
@@ -232,98 +232,96 @@ function App() {
         
         )}
 
+{/* Updated Contact Section */}
 {activeSection === 'contact' && (
-          {activeSection === 'contact' && (
-            <section className="contact">
-              <h2>Get In Touch</h2>
+        <section className="contact">
+          <h2>Get In Touch</h2>
+          
+          {formStatus.success ? (
+            <div className="form-success">
+              <h3>Thank You!</h3>
+              <p>Your message has been sent successfully. I'll get back to you soon.</p>
+              <button 
+                onClick={() => setFormStatus({ submitting: false, success: false, error: false })}
+                className="success-btn"
+              >
+                Send Another Message
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <input 
+                type="hidden" 
+                name="_next" 
+                value="https://portfolio-inky-three-76.vercel.app/" 
+              />
+              <input 
+                type="hidden" 
+                name="_autoresponse" 
+                value="Thank you for contacting me! I've received your message and will get back to you soon." 
+              />
               
-              {formStatus.success ? (
-                <div className="form-success">
-                  <h3>Thank You!</h3>
-                  <p>Your message has been sent successfully. I'll get back to you soon.</p>
-                  <button 
-                    onClick={() => setFormStatus({ submitting: false, success: false, error: false })}
-                    className="success-btn"
-                  >
-                    Send Another Message
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <input 
-                    type="hidden" 
-                    name="_next" 
-                    value="https://portfolio-inky-three-76.vercel.app/" 
-                  />
-                  <input 
-                    type="hidden" 
-                    name="_autoresponse" 
-                    value="Thank you for contacting me! I've received your message and will get back to you soon." 
-                  />
-                  
-                  <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label htmlFor="message">Message</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                    ></textarea>
-                  </div>
-                  
-                  <button 
-                    type="submit" 
-                    disabled={formStatus.submitting}
-                    className={formStatus.submitting ? 'submitting' : ''}
-                  >
-                    {formStatus.submitting ? 'Sending...' : 'Send Message'}
-                  </button>
-                  
-                  {formStatus.error && (
-                    <p className="form-error">
-                      Oops! Something went wrong. Please try again or contact me directly at nidhikarva2005@gmail.com
-                    </p>
-                  )}
-                </form>
-              )}
-              
-              <div className="social-links">
-                <a href="https://www.linkedin.com/in/nidhikarva" target="_blank" rel="noopener noreferrer">
-                  LinkedIn
-                </a>
-                <a href="https://github.com/Nidhi2805" target="_blank" rel="noopener noreferrer">
-                  GitHub
-                </a>
-                <a href="mailto:nidhikarva2005@gmail.com">
-                  Email
-                </a>
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
-            </section>
+              
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                ></textarea>
+              </div>
+              
+              <button 
+                type="submit" 
+                disabled={formStatus.submitting}
+                className={formStatus.submitting ? 'submitting' : ''}
+              >
+                {formStatus.submitting ? 'Sending...' : 'Send Message'}
+              </button>
+              
+              {formStatus.error && (
+                <p className="form-error">
+                  Oops! Something went wrong. Please try again or contact me directly at nidhikarva2005@gmail.com
+                </p>
+              )}
+            </form>
+          )}
+          
+          <div className="social-links">
+            <a href="https://www.linkedin.com/in/nidhikarva" target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </a>
+            <a href="https://github.com/Nidhi2805" target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+          </div>
+        </section>
+        )}
       </main>
 
       <footer>
