@@ -3,6 +3,16 @@ import './App.css';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [formStatus, setFormStatus] = useState({
+    submitting: false,
+    success: false,
+    error: false
+  });
 
   const projects = [
     {
@@ -94,6 +104,46 @@ function App() {
     { name: "Stripe API", level: 60 }
   ];
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus({ submitting: true, success: false, error: false });
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/nidhikarva2005@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: 'New message from your portfolio'
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        setFormStatus({ submitting: false, success: true, error: false });
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (error) {
+      setFormStatus({ submitting: false, success: false, error: true });
+    }
+  };
+
   return (
     <div className="portfolio">
       <nav className="navbar">
@@ -182,29 +232,77 @@ function App() {
         
         )}
 
-        {activeSection === 'contact' && (
+{activeSection === 'contact' && (
           <section className="contact">
             <h2>Get In Touch</h2>
-            <form>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" placeholder="Your Name" />
+            {formStatus.success ? (
+              <div className="form-success">
+                <p>Thank you for your message! I'll get back to you soon.</p>
+                <button onClick={() => setFormStatus({ submitting: false, success: false, error: false })}>
+                  Send another message
+                </button>
               </div>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" placeholder="Your Email" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea id="message" placeholder="Your Message"></textarea>
-              </div>
-              <button type="submit">Send Message</button>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="name">Name</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name"
+                    placeholder="Your Name" 
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    placeholder="Your Email" 
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="message">Message</label>
+                  <textarea 
+                    id="message" 
+                    name="message"
+                    placeholder="Your Message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" disabled={formStatus.submitting}>
+                  {formStatus.submitting ? 'Sending...' : 'Send Message'}
+                </button>
+                {formStatus.error && (
+                  <p className="form-error">Oops! Something went wrong. Please try again.</p>
+                )}
+              </form>
+            )}
             <div className="social-links">
-              <a href="https://www.linkedin.com/in/nidhikarva" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-              <a href="https://github.com/Nidhi2805" target="_blank" rel="noopener noreferrer">GitHub</a>
-              <a href="mailto:nidhikarva2005@gmail.com">Email</a>
-            </div>
+      <a href="https://www.linkedin.com/in/nidhikarva" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/Nidhi2805" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a 
+        href="mailto:nidhikarva2005@gmail.com?subject=Portfolio%20Contact" 
+        onClick={(e) => {
+          if (window.innerWidth > 768) { 
+            window.location.href = "mailto:nidhikarva2005@gmail.com?subject=Portfolio%20Contact";
+            e.preventDefault();
+          }
+
+        }}
+      >
+        Email
+      </a>
+    </div>
           </section>
         )}
       </main>
