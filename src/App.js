@@ -253,7 +253,7 @@ function App() {
                   <input 
                     type="hidden" 
                     name="_next" 
-                    value="https://portfolio-inky-three-76.vercel.app/thank-you" 
+                    value="https://portfolio-inky-three-76.vercel.app/" 
                   />
                   <input 
                     type="hidden" 
