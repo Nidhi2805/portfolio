@@ -233,78 +233,97 @@ function App() {
         )}
 
 {activeSection === 'contact' && (
-          <section className="contact">
-            <h2>Get In Touch</h2>
-            {formStatus.success ? (
-              <div className="form-success">
-                <p>Thank you for your message! I'll get back to you soon.</p>
-                <button onClick={() => setFormStatus({ submitting: false, success: false, error: false })}>
-                  Send another message
-                </button>
+          {activeSection === 'contact' && (
+            <section className="contact">
+              <h2>Get In Touch</h2>
+              
+              {formStatus.success ? (
+                <div className="form-success">
+                  <h3>Thank You!</h3>
+                  <p>Your message has been sent successfully. I'll get back to you soon.</p>
+                  <button 
+                    onClick={() => setFormStatus({ submitting: false, success: false, error: false })}
+                    className="success-btn"
+                  >
+                    Send Another Message
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <input 
+                    type="hidden" 
+                    name="_next" 
+                    value="https://portfolio-inky-three-76.vercel.app/thank-you" 
+                  />
+                  <input 
+                    type="hidden" 
+                    name="_autoresponse" 
+                    value="Thank you for contacting me! I've received your message and will get back to you soon." 
+                  />
+                  
+                  <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="message">Message</label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      required
+                    ></textarea>
+                  </div>
+                  
+                  <button 
+                    type="submit" 
+                    disabled={formStatus.submitting}
+                    className={formStatus.submitting ? 'submitting' : ''}
+                  >
+                    {formStatus.submitting ? 'Sending...' : 'Send Message'}
+                  </button>
+                  
+                  {formStatus.error && (
+                    <p className="form-error">
+                      Oops! Something went wrong. Please try again or contact me directly at nidhikarva2005@gmail.com
+                    </p>
+                  )}
+                </form>
+              )}
+              
+              <div className="social-links">
+                <a href="https://www.linkedin.com/in/nidhikarva" target="_blank" rel="noopener noreferrer">
+                  LinkedIn
+                </a>
+                <a href="https://github.com/Nidhi2805" target="_blank" rel="noopener noreferrer">
+                  GitHub
+                </a>
+                <a href="mailto:nidhikarva2005@gmail.com">
+                  Email
+                </a>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="name">Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name"
-                    placeholder="Your Name" 
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email"
-                    placeholder="Your Email" 
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="message">Message</label>
-                  <textarea 
-                    id="message" 
-                    name="message"
-                    placeholder="Your Message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                  ></textarea>
-                </div>
-                <button type="submit" disabled={formStatus.submitting}>
-                  {formStatus.submitting ? 'Sending...' : 'Send Message'}
-                </button>
-                {formStatus.error && (
-                  <p className="form-error">Oops! Something went wrong. Please try again.</p>
-                )}
-              </form>
-            )}
-            <div className="social-links">
-      <a href="https://www.linkedin.com/in/nidhikarva" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://github.com/Nidhi2805" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a 
-        href="mailto:nidhikarva2005@gmail.com?subject=Portfolio%20Contact" 
-        onClick={(e) => {
-          if (window.innerWidth > 768) { 
-            window.location.href = "mailto:nidhikarva2005@gmail.com?subject=Portfolio%20Contact";
-            e.preventDefault();
-          }
-
-        }}
-      >
-        Email
-      </a>
-    </div>
-          </section>
-        )}
+            </section>
       </main>
 
       <footer>
